@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Champion 🏏❤️</title>
+
+<style>
+body{
+margin:0;
+font-family:'Segoe UI',sans-serif;
+background:black;
+color:white;
+text-align:center;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+overflow:hidden;
+}
+
+/* ✨ Moving Stars */
+body::before{
+content:"";
+position:absolute;
+width:200%;
+height:200%;
+background:radial-gradient(white 1px, transparent 1px);
+background-size:40px 40px;
+animation:moveStars 60s linear infinite;
+opacity:0.2;
+}
+
+@keyframes moveStars{
+from{transform:translateY(0);}
+to{transform:translateY(-500px);}
+}
+
+.container{
+max-width:90%;
+position:relative;
+z-index:2;
+}
+
+#text{
+font-size:20px;
+min-height:220px;
+white-space:pre-line;
+text-shadow:0 0 10px rgba(255,255,255,0.6);
+transition:0.5s;
+}
+
+button{
+padding:12px 25px;
+font-size:18px;
+border:none;
+border-radius:30px;
+background:linear-gradient(45deg,#ff416c,#ff4b2b);
+color:white;
+cursor:pointer;
+margin-top:25px;
+display:none;
+box-shadow:0 0 15px rgba(255,75,75,0.7);
+}
+
+button:hover{
+transform:scale(1.05);
+}
+
+.heartBtn{
+background:linear-gradient(45deg,#ff0080,#ff4d6d);
+}
+
+@media(max-width:768px){
+video{
+width:100vw;
+height:100vh;
+object-fit:cover;
+border-radius:0;
+}
+
+
+</style>
+</head>
+
+<body>
+
+<div class="container" id="content">
+<div id="text"></div>
+<button id="openBtn" onclick="secondMessage()">Open 💖</button>
+<button id="nextBtn"></button>
+</div>
+
+<audio id="bgMusic" src="C:\Users\Dell\OneDrive\Desktop\SpecialMoments\Song.mp3"></audio>
+
+<video id="myVideo" playsinline muted onended="videoEnded()">
+<source src="C:\Users\Dell\OneDrive\Desktop\SpecialMoments\Vedio,mp4.mp4" type="video/mp4">
+</video>
+
+<script>
+
+let textElement = document.getElementById("text");
+let openBtn = document.getElementById("openBtn");
+let nextBtn = document.getElementById("nextBtn");
+let bgMusic = document.getElementById("bgMusic");
+let video = document.getElementById("myVideo");
+
+/* ✍️ Typing Effect */
+function typeText(message, callback){
+textElement.innerHTML = "";
+let i = 0;
+let typing = setInterval(function(){
+textElement.innerHTML += message.charAt(i);
+i++;
+if(i >= message.length){
+clearInterval(typing);
+if(callback) callback();
+}
+}, 60);
+}
+
+/* 🎵 Music Fade */
+function fadeIn(audio){
+audio.volume=0;
+audio.play();
+let fade=setInterval(function(){
+if(audio.volume<1){
+audio.volume+=0.05;
+}else{clearInterval(fade);}
+},200);
+}
+
+function fadeOut(audio){
+let fade=setInterval(function(){
+if(audio.volume>0.05){
+audio.volume-=0.05;
+}else{
+audio.pause();
+clearInterval(fade);
+}
+},200);
+}
+
+/* 💬 Messages */
+
+let firstMsg ="Aaj kuch special hai tere liye... 🌌💫\nTu sirf best friend nahi...\nTu meri life ka champion hai 🏆❤️";
+
+let beforeVideoMsg = "Gayu… 💙\n\nKabhi kabhi lagta hai ke life me kuch log bas milte nahi… special reason se bheje jaate hai.\nTu unme se ek hai.\n\nTere saath jo comfort hai na… woh kisi aur ke saath kabhi feel nahi hua.\nTu sirf dost nahi… dost se barkar baan chuki ho 🤍";
+
+let afterVideoMsg = "You know Gayu.. 💙\n\nPehle din se aaj tak apun ne kitna kuch share kiya hai masti, fun, thoda drama, thoda garba se party tak \nKab waqt nikal gaya pata hi nahi chala...\n\nAaj bhi woh har choti badi memory mere dil me safe hai 🤍\n\nBas ek darr sa lagta hai...\nLife change hoti rehti hai.\nLog busy ho jaate hai.\nPriorities badal jaati hai.\n\nBas itna sa request hai...\nChahe life kitni bhi change ho jaye…\nHamari bonding kabhi change na ho 🥺\n\nTu meri life ka important hissa hai… aur hamesha rahegi 💙✨";
+
+let finalMsg = "Tum kitni khushboo jaisi strong ho 💫 bilkul Virat Kohli ke cover drive ki tarah 🏏🔥\n\nItni pyaari ho jaise Rohit Sharma ka pull shot 💖\nTumhara style bilkul MS Dhoni ke helicopter shot jaisa 😎🚁\n\nTumhari saadgi utni hi khoobsurat hai jitni Sachin sir ka straight drive ✨🏏\nTumhara chehra AB de Villiers ke 360° shot ki tarah 😍 jidhar se bhi dekho bas acha hi lagta hai 💕\n\nAur tumhara gussa bilkul Lasith Malinga ki yorker jaisa 🎯 seedha clean bowled 😅💙";
+
+/* 🚀 Flow */
+
+window.onload = function(){
+typeText(firstMsg, function(){
+openBtn.style.display="inline-block";
+});
+}
+
+function secondMessage(){
+openBtn.style.display="none";
+fadeIn(bgMusic);
+typeText(beforeVideoMsg, function(){
+nextBtn.style.display="inline-block";
+nextBtn.innerHTML="Next ➡";
+nextBtn.onclick=showVideo;
+});
+}
+
+function showVideo(){
+nextBtn.style.display="none";
+document.getElementById("content").style.display="none";
+video.style.display="block";
+video.play();
+}
+
+function videoEnded(){
+video.style.display="none";
+document.getElementById("content").style.display="block";
+fadeIn(bgMusic);
+typeText(afterVideoMsg, function(){
+nextBtn.style.display="inline-block";
+nextBtn.classList.add("heartBtn");
+nextBtn.innerHTML="Next ❤️";
+nextBtn.onclick=showFinal;
+});
+}
+
+function showFinal(){
+typeText(finalMsg, function(){
+nextBtn.style.display="inline-block";
+nextBtn.innerHTML="Finish ❤️";
+nextBtn.onclick=thankYou;
+});
+}
+
+function thankYou(){
+document.getElementById("content").innerHTML="<h1 style='text-shadow:0 0 25px gold;'>Thank You For Being My FRIEND 🏆❤️</h1>";
+}
+
+</script>
+
+</body>
+</html>
